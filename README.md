@@ -48,15 +48,53 @@ Instead of juggling massive shell commands to spin up different local LLMs, Llam
 - `Escape`: Toggle the central Overlay Menu to switch internal Themes or confidently exit the application.
 - `Q` or `Ctrl+C`: Gracefully sever the log listeners and exit the application instantly *(Note: Background processes stay completely unbothered!)*
 
-## 📝 Configuration (`config.toml` structure)
+## 📝 Configuration (`config.toml`)
 
-Configurations are natively processed in TOML. The global variables allow for generic defaults, whilst individual model configurations explicitly override base defaults!
+Llama Launcher utilizes a global/local cascading configuration. Values defined at the top level act as defaults and can be overridden by individual model definitions.
+
+### Global Options
+
+| Option | Description |
+|--------|-------------|
+| `container_image` | Default Docker image to use (e.g., `ghcr.io/ggerganov/llama.cpp:server`) |
+| `model_dir` | The base directory on your host where models are stored. Supports `~` expansion. |
+| `port` | Default host port to map if not specified in the model. |
+| `n_predict` | Default number of tokens to predict (`-n`). |
+| `chat_template` | Default chat template name or content (`--chat-template`). |
+| `ctk` | Default KV cache key quantization (`-ctk`). |
+| `ctv` | Default KV cache value quantization (`-ctv`). |
+
+### Model Options (`[[models]]`)
+
+Each entry in the `[[models]]` list defines a specific model configuration.
+
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| `name` | string | **Yes** | Display name in the TUI sidebar. |
+| `container_name`| string | **Yes** | Unique name for the Docker container (`--name`). |
+| `model_file` | string | No* | The GGUF filename inside `model_dir`. |
+| `model_path` | string | No* | Full path to the model file. (Alternative to `model_file`). |
+| `container_image`| string | No | Override for the global `container_image`. |
+| `model_dir` | string | No | Override for the global `model_dir`. |
+| `host_port` | int | No | The port on the host machine to bind to. |
+| `container_port`| int | No | The port inside the container (default: 8080). |
+| `gpu_layers` | int | No | Number of layers to offload to GPU (`--n-gpu-layers`). |
+| `context_size`| int | No | Context window size (`-c`). |
+| `threads` | int | No | Number of threads to use (`-t`). |
+| `batch_size` | int | No | Physical batch size (`-b`). |
+| `n_predict` | int | No | Number of tokens to predict (`-n`). |
+| `chat_template`| string | No | Chat template override (`--chat-template`). |
+| `ctk` | string | No | KV cache key quantization override (`-ctk`). |
+| `ctv` | string | No | KV cache value quantization override (`-ctv`). |
+
+*\* Note: You must provide either `model_file` (if `model_dir` is set) or `model_path` so the launcher can find the model.*
+
+### Full Example
 
 ```toml
 container_image = "local/llama.cpp:server-cuda"
-host_port = 8080
-container_port = 8080
-model_dir = "~/models" # Universal Expansion fully supported!
+model_dir = "~/models"
+port = 8080
 
 [[models]]
 name = "tiny-llama"
@@ -69,7 +107,7 @@ context_size = 2048
 name = "mistral-7b"
 model_file = "mistral-7b-instruct-v0.1.q4_k_m.gguf"
 container_name = "llama-mistral"
-host_port = 8081 # Override the default host-port!
-gpu_layers = 32
-context_size = 4096
+host_port = 8081
+gpu_layers = 33
+ctk = "q8_0"
 ```
