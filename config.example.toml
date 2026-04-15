@@ -1,0 +1,23 @@
+container_image = "local/llama.cpp:server-cuda"
+host_port = 8080
+container_port = 8080
+model_dir = "~/models"
+
+[[models]]
+name = "tiny-llama"
+model_file = "tiny-llama-1b.q4_k_m.gguf"
+container_name = "llama-tiny"
+gpu_layers = 32
+context_size = 2048
+threads = 4
+batch_size = 512
+
+[[models]]
+name = "mistral-7b"
+model_file = "mistral-7b-instruct-v0.1.q4_k_m.gguf"
+container_name = "llama-mistral"
+host_port = 8081
+gpu_layers = 32
+context_size = 4096
+threads = 8
+batch_size = 1024
