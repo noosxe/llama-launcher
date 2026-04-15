@@ -1,5 +1,8 @@
 # 🦙 Llama Launcher
 
+> [!CAUTION]
+> **Warning**: This project is fully **vibe-coded**. Proceed with appropriate levels of curiosity and caution.
+
 **Llama Launcher** is a highly polished, interactive Terminal User Interface (TUI) built in Go to seamlessly orchestrate and manage `llama.cpp` Docker containers. 
 
 Instead of juggling massive shell commands to spin up different local LLMs, Llama Launcher serves as a centralized dashboard. It allows you to rapidly deploy, supervise, monitor, and selectively tear down highly-configured local inference nodes!
