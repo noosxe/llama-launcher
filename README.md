@@ -1,6 +1,6 @@
 # 🦙 Llama Launcher
 
-[![Release](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml/badge.svg)](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/noosxe/llama-launcher/cmd/llama-launcher.svg)](https://pkg.go.dev/github.com/noosxe/llama-launcher/cmd/llama-launcher)
+[![Release](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml/badge.svg)](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/noosxe/llama-launcher/cmd/llama-launcher.svg)](https://pkg.go.dev/github.com/noosxe/llama-launcher/cmd/llama-launcher) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > [!CAUTION]
 > **Warning**: This project is fully **vibe-coded**. Proceed with appropriate levels of curiosity and caution.
