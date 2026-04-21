@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/adrg/xdg"
 	"github.com/spf13/viper"
@@ -48,7 +49,7 @@ func Load(path string) (*Config, error) {
 		v.SetConfigName("config")
 		v.SetConfigType("toml")
 
-		v.AddConfigPath(xdg.ConfigHome)
+		v.AddConfigPath(filepath.Join(xdg.ConfigHome, "llama-launcher"))
 		v.AddConfigPath(".")
 	}
 
