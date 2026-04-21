@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"llama-launcher/internal/config"
+	"github.com/noosxe/llama-launcher/internal/config"
 )
 
 var runCmd = &cobra.Command{

@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"llama-launcher/internal/config"
+	"github.com/noosxe/llama-launcher/internal/config"
 )
 
 var listCmd = &cobra.Command{

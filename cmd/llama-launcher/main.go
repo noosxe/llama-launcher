@@ -1,7 +1,7 @@
 package main
 
 import (
-	"llama-launcher/internal/cli"
+	"github.com/noosxe/llama-launcher/internal/cli"
 )
 
 func main() {
