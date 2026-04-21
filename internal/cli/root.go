@@ -3,6 +3,7 @@ package cli
 import (
 	"fmt"
 	"os"
+	"runtime/debug"
 
 	"github.com/spf13/cobra"
 )
@@ -21,6 +22,16 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() {
+	// If version is not set by ldflags, try to get it from build info (for go install)
+	if Version == "dev" {
+		if info, ok := debug.ReadBuildInfo(); ok {
+			if info.Main.Version != "" && info.Main.Version != "(devel)" {
+				Version = info.Main.Version
+				rootCmd.Version = Version
+			}
+		}
+	}
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		os.Exit(1)
