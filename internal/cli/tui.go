@@ -1,8 +1,8 @@
-package cmd
+package cli
 
 import (
 	"github.com/spf13/cobra"
-	"llama-launcher/tui"
+	"llama-launcher/internal/tui"
 )
 
 var tuiCmd = &cobra.Command{

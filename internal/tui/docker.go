@@ -1,60 +1,37 @@
-package cmd
+package tui
 
 import (
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 
-	"github.com/spf13/cobra"
-	"llama-launcher/config"
+	"llama-launcher/internal/config"
 )
 
-var runCmd = &cobra.Command{
-	Use:   "run [model-name]",
-	Short: "Run a selected model",
-	Args:  cobra.ExactArgs(1),
-	Run:   runModel,
-}
-
-func runModel(cmd *cobra.Command, args []string) {
-	modelName := args[0]
-
-	cfg, err := config.Load(cfgFile)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to load config: %v\n", err)
-		os.Exit(1)
-	}
-
-	var modelConfig *config.Model
-	for i := range cfg.Models {
-		if cfg.Models[i].Name == modelName {
-			modelConfig = &cfg.Models[i]
-			break
+func expandPath(pathStr string) string {
+	if pathStr == "~" {
+		if home, err := os.UserHomeDir(); err == nil {
+			return home
+		}
+	} else if strings.HasPrefix(pathStr, "~/") {
+		if home, err := os.UserHomeDir(); err == nil {
+			return filepath.Join(home, pathStr[2:])
 		}
 	}
+	return pathStr
+}
 
-	if modelConfig == nil {
-		fmt.Fprintf(os.Stderr, "Model '%s' not found\n", modelName)
-		os.Exit(1)
-	}
-
-	containerImage := modelConfig.ContainerImage
+func BuildDockerCmd(cfg *config.Config, m *config.Model) (*exec.Cmd, error) {
+	containerImage := m.ContainerImage
 	if containerImage == "" {
 		containerImage = cfg.ContainerImage
 	}
 	if containerImage == "" {
-		fmt.Fprintf(os.Stderr, "container_image not configured\n")
-		os.Exit(1)
+		return nil, fmt.Errorf("container_image not configured")
 	}
 
-	if err := startContainer(cfg, containerImage, modelConfig); err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to start container: %v\n", err)
-		os.Exit(1)
-	}
-}
-
-func startContainer(cfg *config.Config, image string, m *config.Model) error {
 	modelDir := m.ModelDir
 	if modelDir == "" {
 		modelDir = cfg.ModelDir
@@ -63,7 +40,12 @@ func startContainer(cfg *config.Config, image string, m *config.Model) error {
 		modelDir = filepath.Dir(m.ModelPath)
 	}
 	if modelDir == "" {
-		return fmt.Errorf("model directory not configured")
+		return nil, fmt.Errorf("model directory not configured")
+	}
+	
+	modelDir = expandPath(modelDir)
+	if absDir, err := filepath.Abs(modelDir); err == nil {
+		modelDir = absDir
 	}
 
 	modelFile := m.ModelFile
@@ -78,19 +60,23 @@ func startContainer(cfg *config.Config, image string, m *config.Model) error {
 	if hostPort == 0 {
 		hostPort = cfg.Port
 	}
+	if hostPort == 0 {
+		hostPort = 8080 // default
+	}
+
 	containerPort := m.ContainerPort
 	if containerPort == 0 {
 		containerPort = 8080
 	}
 
 	dockerArgs := []string{
-		"run",
+		"run", "-d",
 		"--name", m.ContainerName,
 		"--gpus", "all",
 		"-p", fmt.Sprintf("%d:%d", hostPort, containerPort),
 		"-v", fmt.Sprintf("%s:/models:ro", modelDir),
 		"--rm",
-		image,
+		containerImage,
 		"-m", fmt.Sprintf("/models/%s", modelFile),
 		"--port", fmt.Sprintf("%d", containerPort),
 		"--host", "0.0.0.0",
@@ -141,17 +127,9 @@ func startContainer(cfg *config.Config, image string, m *config.Model) error {
 		dockerArgs = append(dockerArgs, "-ctv", kvCacheQuantVal)
 	}
 
-	fmt.Printf("Starting container '%s' on port %d...\n", m.ContainerName, hostPort)
-	fmt.Printf("Docker args: docker %v\n", dockerArgs)
-
-	execCmd := exec.Command("docker", dockerArgs...)
-	execCmd.Stdout = os.Stdout
-	execCmd.Stderr = os.Stderr
-	execCmd.Stdin = os.Stdin
-
-	return execCmd.Run()
+	return exec.Command("docker", dockerArgs...), nil
 }
 
-func init() {
-	rootCmd.AddCommand(runCmd)
+func BuildDockerLogsCmd(containerName string) *exec.Cmd {
+	return exec.Command("docker", "logs", "-f", containerName)
 }

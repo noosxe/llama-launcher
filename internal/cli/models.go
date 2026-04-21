@@ -1,11 +1,11 @@
-package cmd
+package cli
 
 import (
 	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
-	"llama-launcher/config"
+	"llama-launcher/internal/config"
 )
 
 var listCmd = &cobra.Command{
