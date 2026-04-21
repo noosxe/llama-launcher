@@ -3,9 +3,9 @@
 [![Release](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml/badge.svg)](https://github.com/noosxe/llama-launcher/actions/workflows/release.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/noosxe/llama-launcher/cmd/llama-launcher.svg)](https://pkg.go.dev/github.com/noosxe/llama-launcher/cmd/llama-launcher) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 > [!CAUTION]
-> **Warning**: This project is fully **vibe-coded**. Proceed with appropriate levels of curiosity and caution.
+> **Warning**: This project is fully **vibe-coded**. Proceed with appropriate levels of curiosity and caution. The auther (me) will be adding various comments throughout this readme and maybe other documents or code manually. You will probably notice them immediately because they will not align with general "vibe" of llms. 
 
-**Llama Launcher** is a highly polished, interactive Terminal User Interface (TUI) built in Go to seamlessly orchestrate and manage `llama.cpp` Docker containers. 
+**Llama Launcher** is a highly polished (not really!), interactive Terminal User Interface (TUI) built in Go to seamlessly orchestrate and manage `llama.cpp` Docker containers. 
 
 Instead of juggling massive shell commands to spin up different local LLMs, Llama Launcher serves as a centralized dashboard. It allows you to rapidly deploy, supervise, monitor, and selectively tear down highly-configured local inference nodes!
 
@@ -13,8 +13,8 @@ Instead of juggling massive shell commands to spin up different local LLMs, Llam
 
 - **Detached Orchestration**: Your inference instances are fully decoupled! You can launch a container inside the dashboard, press `Q` to completely exit the launcher, and your underlying `docker` workload will stay actively serving! Opening the dashboard again instantly rediscovers and re-attaches to the background logs.
 - **Hardware Monitoring**: Check real-time Global Host Stats via the interactive footer, which utilizes native Linux tools (`top`, `free`, and `nvidia-smi`) to poll accurate CPU, RAM, GPU, and VRAM utilization continuously!
-- **Catppuccin Themes**: Ships natively with full support for the gorgeous [Catppuccin](https://github.com/catppuccin/catppuccin) color standard. Customize your entire interface on the fly with a dedicated settings menu!
-- **Dynamic Configuration**: Hot-swap configurations utilizing standard TOML tables. Expand standard pathing variables seamlessly into your volumes!
+- **Catppuccin Themes**: Ships natively with full support for the gorgeous [Catppuccin](https://github.com/catppuccin/catppuccin) color standard. Customize your entire interface on the fly with a dedicated settings menu! (Disclaimer: I've tested the "mocha" variant only, as it is the color scheme I use in my terminal. Other variants of catppuccin may not work as intended. I'm an idiot, not a masochist. (ok, I've left the idiot not a masochist part here because gemini suggested that when I was typing. :shrug:))
+- **Dynamic Configuration**: Hot-swap configurations utilizing standard TOML tables. Expand standard pathing variables seamlessly into your volumes! (no idea what it meant by hot-swap here, not tested at all!)
 
 ## ⚙️ Prerequisites
 
