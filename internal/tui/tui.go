@@ -11,7 +11,7 @@ import (
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"llama-launcher/internal/config"
+	"github.com/noosxe/llama-launcher/internal/config"
 )
 
 const sidebarWidth = 35

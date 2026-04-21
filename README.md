@@ -22,14 +22,15 @@ Instead of juggling massive shell commands to spin up different local LLMs, Llam
 
 ## 🚀 Installation & Usage
 
-1. **Clone the repo**
+1. **Install directly**
    ```bash
-   git clone https://github.com/your-username/llama-launcher.git
-   cd llama-launcher
+   go install github.com/noosxe/llama-launcher/cmd/llama-launcher@latest
    ```
-2. **Build the dashboard**
+   *Alternatively, clone and build:*
    ```bash
-   go build -o llama-launcher .
+   git clone https://github.com/noosxe/llama-launcher.git
+   cd llama-launcher
+   go build -o llama-launcher ./cmd/llama-launcher
    ```
 3. **Set up the config**
    Copy the example config and adjust the paths to point toward your native `.gguf` directories.

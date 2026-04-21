@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"llama-launcher/internal/config"
+	"github.com/noosxe/llama-launcher/internal/config"
 )
 
 func expandPath(pathStr string) string {

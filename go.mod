@@ -1,4 +1,4 @@
-module llama-launcher
+module github.com/noosxe/llama-launcher
 
 go 1.26.2
 
