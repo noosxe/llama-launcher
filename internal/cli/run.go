@@ -141,6 +141,16 @@ func startContainer(cfg *config.Config, image string, m *config.Model) error {
 		dockerArgs = append(dockerArgs, "-ctv", kvCacheQuantVal)
 	}
 
+	jinja := true
+	if m.Jinja != nil {
+		jinja = *m.Jinja
+	} else if cfg.Jinja != nil {
+		jinja = *cfg.Jinja
+	}
+	if jinja {
+		dockerArgs = append(dockerArgs, "--jinja")
+	}
+
 	fmt.Printf("Starting container '%s' on port %d...\n", m.ContainerName, hostPort)
 	fmt.Printf("Docker args: docker %v\n", dockerArgs)
 

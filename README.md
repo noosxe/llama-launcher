@@ -66,6 +66,7 @@ Llama Launcher utilizes a global/local cascading configuration. Values defined a
 | `chat_template` | Default chat template name or content (`--chat-template`). |
 | `ctk` | Default KV cache key quantization (`-ctk`). |
 | `ctv` | Default KV cache value quantization (`-ctv`). |
+| `jinja` | Pass the Jinja template flag to the server (`--jinja`). Defaults to true. |
 
 ### Model Options (`[[models]]`)
 
@@ -89,6 +90,7 @@ Each entry in the `[[models]]` list defines a specific model configuration.
 | `chat_template`| string | No | Chat template override (`--chat-template`). |
 | `ctk` | string | No | KV cache key quantization override (`-ctk`). |
 | `ctv` | string | No | KV cache value quantization override (`-ctv`). |
+| `jinja` | bool | No | Jinja template flag override (`--jinja`). |
 
 *\* Note: You must provide either `model_file` (if `model_dir` is set) or `model_path` so the launcher can find the model.*
 
@@ -98,6 +100,7 @@ Each entry in the `[[models]]` list defines a specific model configuration.
 container_image = "local/llama.cpp:server-cuda"
 model_dir = "~/models"
 port = 8080
+jinja = true
 
 [[models]]
 name = "tiny-llama"

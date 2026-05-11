@@ -26,6 +26,7 @@ type Model struct {
 	ChatTemplate    string   `mapstructure:"chat_template"`
 	KVCacheQuantKey string   `mapstructure:"ctk"`
 	KVCacheQuantVal string   `mapstructure:"ctv"`
+	Jinja           *bool    `mapstructure:"jinja"`
 	Annotations     []string `mapstructure:"annotations"`
 }
 
@@ -37,6 +38,7 @@ type Config struct {
 	ChatTemplate    string  `mapstructure:"chat_template"`
 	KVCacheQuantKey string  `mapstructure:"ctk"`
 	KVCacheQuantVal string  `mapstructure:"ctv"`
+	Jinja           *bool   `mapstructure:"jinja"`
 	Models          []Model `mapstructure:"models"`
 }
 
